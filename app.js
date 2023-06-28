@@ -8,7 +8,9 @@ require('./models/connection');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var tripsRouter = require('./routes/trips')
+var tripsRouter = require('./routes/trips');
+var panierRouter = require("./routes/paniers");
+var commandeRouter = require("./routes/commandes");
 
 var app = express();
 app.use(cors());
@@ -22,5 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/trips', tripsRouter);
+app.use('/panier', panierRouter);
+app.use('/commande', commandeRouter);
 
 module.exports = app;
