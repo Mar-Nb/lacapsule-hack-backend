@@ -78,8 +78,8 @@ router.post("/sortByDate", (req, res) => {
   }
   
   const dateOrder = { date: req.body.dateOrder ?? 1 };
-  Trip.find().sort(dateOrder).then(dataTrip => {
-      res.json({ trips: dataTrip });
+  Trip.find(filter).sort(dateOrder).then(dataTrip => {
+      res.json({ result: true, trips: dataTrip });
   }); 
 });
 
