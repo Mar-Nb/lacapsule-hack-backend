@@ -4,14 +4,16 @@ var router = express.Router();
 const Panier = require("../models/paniers");
 const Trip = require("../models/trips");
 
-/* GET home page. */
+// Récupération du contenu du panier
 router.get('/', function(req, res) {
-  // res.render('index', { title: 'Express' });
   Panier.find().sort({ date: 1 }).then(trips => {
-    res.json({ result: true, trips });
+    let total = 0;
+    for (const trip of trips) { total += Number(trip.price) }
+    res.json({ result: true, trips, total });
   });
 });
 
+// Suppression d'un article du panier
 router.delete("/:id", function(req, res) {
   Panier.deleteOne({ _id: req.params.id }).then(result => {
     if (result.deletedCount === 1) {
@@ -24,6 +26,7 @@ router.delete("/:id", function(req, res) {
   });
 });
 
+// Création d'un article dans le panier
 router.post("/", function(req, res) {
   Trip.findById(req.body.id).then(trip => {
     const newTrip = new Panier({

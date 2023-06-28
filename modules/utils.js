@@ -1,5 +1,6 @@
 const moment = require("moment");
 
+// Gestion des filtres à passer aux requêtes Mongoose (évite les empty strings)
 function filterConstructor(req) {
     const filter = {};
     if (req.body.departure) { filter["departure"] = new RegExp(req.body.departure, "i"); }
