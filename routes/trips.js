@@ -1,12 +1,9 @@
 var express = require('express');
 var router = express.Router();
-const { checkBody } = require('../modules/checkBody');
+const { filterConstructor } = require('../modules/utils');
 
 const Trip = require("../models/trips");
-const moment = require("moment");
-// const now= moment();
-// console.log(now);
-// const formattedDate = date.format("dddd, MMMM do YYYY, h:mm:ss a")
+
 /* GET trips listing. */
 router.get('/', (req, res) =>{
 	Trip.find().then(dataTrip => {
@@ -58,22 +55,6 @@ router.get("/date/:date", (req, res) => {
     });
   });
 //afficher trips en fonction des trois paramètre
-
-function filterConstructor(req) {
-  const filter = {};
-  if (req.body.departure !== undefined) { filter["departure"] = new RegExp(req.body.departure, "i"); }
-  if (req.body.arrival !== undefined) { filter["arrival"] = new RegExp(req.body.arrival, "i"); }
-  if (req.body.date !== undefined) {
-    filter["date"] = {
-      $gte: moment(req.body.date).startOf("day"),
-      $lte: moment(req.body.date).endOf("day")
-    }
-  }
-
-  // On retourne false si aucun champ n'est rempli
-  if (Object.keys(filter).length === 0) { filter = false; }
-  return filter;
-}
 
 router.post("/sortByPrice", (req, res) => {
   // Construction du filtre
