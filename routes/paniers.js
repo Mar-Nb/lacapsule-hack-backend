@@ -18,7 +18,9 @@ router.delete("/:id", function(req, res) {
   Panier.deleteOne({ _id: req.params.id }).then(result => {
     if (result.deletedCount === 1) {
       Panier.find().sort({ date: 1 }).then(trips => {
-        res.json({ result: true, trips });
+        let total = 0;
+        for (const trip of trips) { total += Number(trip.price) }
+        res.json({ result: true, trips, total });
       });
     } else {
       res.json({ result: false });
